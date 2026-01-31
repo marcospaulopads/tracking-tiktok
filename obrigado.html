@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Obrigado pela compra</title>
+  <title>Acesso Liberado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- TikTok Pixel -->
   <script>
@@ -16,12 +17,11 @@
         }
       };
       for (var i = 0; i < ttq.methods.length; i++) {
-        ttq.setAndDefer(ttq, ttq.methods[i]);
+        ttq.setAndDefer(ttq, ttq.methods[i])
       }
       ttq.instance = function (t) {
-        var e = ttq._i[t] || [];
-        for (var n = 0; n < ttq.methods.length; n++) {
-          ttq.setAndDefer(e, ttq.methods[n]);
+        for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) {
+          ttq.setAndDefer(e, ttq.methods[n])
         }
         return e
       };
@@ -47,46 +47,106 @@
     }(window, document, 'ttq');
   </script>
 
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      opacity: 0.85;
+      margin-bottom: 30px;
+    }
+
+    .btn-telegram {
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #ffffff;
+      padding: 20px 40px;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 60px;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(0, 136, 204, 0.5);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .btn-telegram:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 18px 40px rgba(0, 170, 255, 0.75);
+    }
+
+    .btn-telegram.disabled {
+      opacity: 0.6;
+      pointer-events: none;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-telegram img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
 </head>
 <body>
 
-  <h2>Compra confirmada 🎉</h2>
-  <p>Clique no botão abaixo para entrar no grupo VIP.</p>
+  <div class="container">
+    <h1>Pagamento confirmado ✅</h1>
+    <p>Clique no botão abaixo para entrar no grupo exclusivo.</p>
 
-  <button id="enterGroup">Entrar no Grupo VIP</button>
+    <a id="enterGroup" class="btn-telegram">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+      Entrar no grupo
+    </a>
+  </div>
 
   <script>
-    // Recupera UTMs do ref (se existirem)
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('ref');
+    const button = document.getElementById("enterGroup");
 
-    if (ref) {
-      try {
-        const decoded = JSON.parse(atob(ref));
-        localStorage.setItem('tracking_basic', JSON.stringify(decoded));
-      } catch (e) {}
+    // Evita duplo disparo
+    if (localStorage.getItem("purchase_sent")) {
+      button.classList.add("disabled");
     }
 
-    const tracking = JSON.parse(localStorage.getItem('tracking_basic'));
+    button.addEventListener("click", function () {
+      if (localStorage.getItem("purchase_sent")) return;
 
-    let fired = false;
+      const orderId = "ORDER_" + Date.now();
 
-    document.getElementById('enterGroup').onclick = function () {
-      if (fired) return;
-      fired = true;
-
-      // Dispara Purchase
       ttq.track('Purchase', {
         value: 13.64,
         currency: 'BRL',
-        content_name: tracking?.utm_content || 'unknown'
+        order_id: orderId
       });
 
-      // Redireciona para o grupo
+      localStorage.setItem("purchase_sent", "1");
+
+      button.classList.add("disabled");
+
       setTimeout(() => {
         window.location.href = "https://t.me/+yE2Lq7vlQLRkMWEx";
-      }, 500);
-    };
+      }, 600);
+    });
   </script>
 
 </body>
