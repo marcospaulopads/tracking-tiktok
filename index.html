@@ -5,6 +5,48 @@
   <title>Entrar no Grupo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- TikTok Pixel -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t;
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
+      ttq.setAndDefer = function (t, e) {
+        t[e] = function () {
+          t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      };
+      for (var i = 0; i < ttq.methods.length; i++) {
+        ttq.setAndDefer(ttq, ttq.methods[i])
+      }
+      ttq.instance = function (t) {
+        for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) {
+          ttq.setAndDefer(e, ttq.methods[n])
+        }
+        return e
+      };
+      ttq.load = function (e, n) {
+        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i = ttq._i || {};
+        ttq._i[e] = [];
+        ttq._i[e]._u = i;
+        ttq._t = ttq._t || {};
+        ttq._t[e] = +new Date;
+        ttq._o = ttq._o || {};
+        ttq._o[e] = n || {};
+        var o = document.createElement("script");
+        o.type = "text/javascript";
+        o.async = !0;
+        o.src = i + "?sdkid=" + e + "&lib=" + t;
+        var a = document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(o, a)
+      };
+
+      ttq.load('D47C8FBC77U2P8MCK090');
+      ttq.page();
+    }(window, document, 'ttq');
+  </script>
+
   <style>
     body {
       margin: 0;
@@ -53,17 +95,16 @@
     // Captura UTMs da URL
     const params = new URLSearchParams(window.location.search);
 
-    // Você pode limitar só às UTMs importantes se quiser
+    // Converte UTMs em string
     const utmPayload = params.toString();
 
-    // Codifica para evitar quebra no Telegram
+    // Codifica para uso no start do Telegram
     const encodedPayload = btoa(utmPayload);
 
-    // Link do bot com START automático
+    // Bot com START automático
     const botUsername = "casadasninfasvip2bot";
     const botLink = `https://t.me/${botUsername}?start=${encodedPayload}`;
 
-    // Aplica no botão
     document.getElementById("telegramLink").href = botLink;
   </script>
 
