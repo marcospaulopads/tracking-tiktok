@@ -18,8 +18,8 @@
 
     .btn-telegram {
       background: linear-gradient(135deg, #0088cc, #00aaff);
-      color: #fff;
-      padding: 18px 36px;
+      color: #ffffff;
+      padding: 20px 40px;
       font-size: 20px;
       font-weight: bold;
       border-radius: 60px;
@@ -28,17 +28,17 @@
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .btn-telegram:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 18px 40px rgba(0, 170, 255, 0.7);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 18px 40px rgba(0, 170, 255, 0.75);
     }
 
     .btn-telegram img {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
     }
   </style>
 </head>
@@ -50,9 +50,21 @@
   </a>
 
   <script>
-    const params = window.location.search;
-    const botLink = "https://t.me/casadasninfasvip2bot";
-    document.getElementById("telegramLink").href = botLink + params;
+    // Captura UTMs da URL
+    const params = new URLSearchParams(window.location.search);
+
+    // Você pode limitar só às UTMs importantes se quiser
+    const utmPayload = params.toString();
+
+    // Codifica para evitar quebra no Telegram
+    const encodedPayload = btoa(utmPayload);
+
+    // Link do bot com START automático
+    const botUsername = "casadasninfasvip2bot";
+    const botLink = `https://t.me/${botUsername}?start=${encodedPayload}`;
+
+    // Aplica no botão
+    document.getElementById("telegramLink").href = botLink;
   </script>
 
 </body>
