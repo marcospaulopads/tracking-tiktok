@@ -10,7 +10,7 @@
     !function (w, d, t) {
       w.TiktokAnalyticsObject = t;
       var ttq = w[t] = w[t] || [];
-      ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
+      ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
       ttq.setAndDefer = function (t, e) {
         t[e] = function () {
           t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
@@ -19,29 +19,6 @@
       for (var i = 0; i < ttq.methods.length; i++) {
         ttq.setAndDefer(ttq, ttq.methods[i])
       }
-      ttq.instance = function (t) {
-        for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) {
-          ttq.setAndDefer(e, ttq.methods[n])
-        }
-        return e
-      };
-      ttq.load = function (e, n) {
-        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
-        ttq._i = ttq._i || {};
-        ttq._i[e] = [];
-        ttq._i[e]._u = i;
-        ttq._t = ttq._t || {};
-        ttq._t[e] = +new Date;
-        ttq._o = ttq._o || {};
-        ttq._o[e] = n || {};
-        var o = document.createElement("script");
-        o.type = "text/javascript";
-        o.async = !0;
-        o.src = i + "?sdkid=" + e + "&lib=" + t;
-        var a = document.getElementsByTagName("script")[0];
-        a.parentNode.insertBefore(o, a)
-      };
-
       ttq.load('D47C8FBC77U2P8MCK090');
       ttq.page();
     }(window, document, 'ttq');
@@ -60,22 +37,23 @@
 
     .btn-telegram {
       background: linear-gradient(135deg, #0088cc, #00aaff);
-      color: #ffffff;
+      color: #fff;
       padding: 20px 40px;
       font-size: 20px;
       font-weight: bold;
       border-radius: 60px;
       text-decoration: none;
-      box-shadow: 0 12px 30px rgba(0, 136, 204, 0.5);
-      transition: all 0.3s ease;
+      box-shadow: 0 12px 30px rgba(0,136,204,.5);
+      transition: all .3s ease;
       display: flex;
       align-items: center;
       gap: 14px;
+      cursor: pointer;
     }
 
     .btn-telegram:hover {
       transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 18px 40px rgba(0, 170, 255, 0.75);
+      box-shadow: 0 18px 40px rgba(0,170,255,.75);
     }
 
     .btn-telegram img {
@@ -86,26 +64,27 @@
 </head>
 <body>
 
-  <a id="telegramLink" class="btn-telegram">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+  <a id="telegramBtn" class="btn-telegram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg">
     Entrar no grupo
   </a>
 
   <script>
-    // Captura UTMs da URL
-    const params = new URLSearchParams(window.location.search);
-
-    // Converte UTMs em string
-    const utmPayload = params.toString();
-
-    // Codifica para uso no start do Telegram
-    const encodedPayload = btoa(utmPayload);
-
-    // Bot com START automático
     const botUsername = "casadasninfasvip2bot";
-    const botLink = `https://t.me/${botUsername}?start=${encodedPayload}`;
 
-    document.getElementById("telegramLink").href = botLink;
+    document.getElementById("telegramBtn").addEventListener("click", function () {
+      const params = new URLSearchParams(window.location.search);
+
+      // Se quiser limitar, use só utm_campaign e utm_content
+      const payload = params.toString();
+
+      // Se não houver UTM, ainda força start
+      const safePayload = payload ? btoa(payload) : "direct";
+
+      const finalLink = `https://t.me/${botUsername}?start=${safePayload}`;
+
+      window.location.href = finalLink;
+    });
   </script>
 
 </body>
