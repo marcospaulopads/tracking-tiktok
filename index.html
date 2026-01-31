@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Acessar Telegram</title>
+</head>
+<body>
+
+  <h2>Entre no Telegram para continuar</h2>
+
+  <button id="goTelegram">Entrar no Telegram</button>
+
+  <script>
+    // Captura UTMs
+    const params = new URLSearchParams(window.location.search);
+
+    const utms = {
+      utm_source: params.get('utm_source'),
+      utm_campaign: params.get('utm_campaign'),
+      utm_content: params.get('utm_content'),
+      utm_term: params.get('utm_term')
+    };
+
+    // Salva localmente
+    localStorage.setItem('tracking_basic', JSON.stringify(utms));
+
+    // Encode para repasse seguro
+    const encoded = btoa(JSON.stringify(utms));
+
+    document.getElementById('goTelegram').onclick = function () {
+      window.location.href =
+        "https://t.me/casadasninfasvip2bot?ref=" + encoded;
+    };
+  </script>
+
+</body>
+</html>
